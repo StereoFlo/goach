@@ -1,7 +1,7 @@
-package src
+package goach
 
 import (
-	"goach/src/models"
+	"goach/models"
 )
 
 func GetCategoryList() []models.Category {
