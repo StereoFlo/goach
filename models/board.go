@@ -31,6 +31,9 @@ func GetBoardById(boardId string) BoardWithThreads {
 	resp, respErr := http.Get(fmt.Sprintf(threadsUrl, boardId))
 
 	if respErr != nil || resp.StatusCode > 205 {
+		if respErr == nil {
+			log.Fatal("status code" + string(resp.StatusCode))
+		}
 		log.Fatal(respErr)
 	}
 
