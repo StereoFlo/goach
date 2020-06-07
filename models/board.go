@@ -22,8 +22,9 @@ type Thread struct {
 }
 
 type BoardWithThreads struct {
-	Id      string   `json:"board"`
-	Threads []Thread `json:"threads"`
+	Id           string   `json:"board"`
+	Threads      []Thread `json:"threads"`
+	ThreadsCount int32    `json:"threads_count"`
 }
 
 func GetBoardById(boardId string) BoardWithThreads {
