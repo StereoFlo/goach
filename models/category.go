@@ -17,7 +17,7 @@ type Category struct {
 func GetList() interface{} {
 	resp, respErr := http.Get(categoriesUrl)
 
-	if respErr != nil {
+	if respErr != nil || resp.StatusCode > 205 {
 		log.Fatal(respErr)
 	}
 

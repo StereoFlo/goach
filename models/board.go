@@ -30,7 +30,7 @@ type BoardWithThreads struct {
 func GetBoardById(boardId string) BoardWithThreads {
 	resp, respErr := http.Get(fmt.Sprintf(threadsUrl, boardId))
 
-	if respErr != nil {
+	if respErr != nil || resp.StatusCode > 205 {
 		log.Fatal(respErr)
 	}
 
