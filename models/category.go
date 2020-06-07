@@ -9,18 +9,12 @@ import (
 
 const categoriesUrl = "https://2ch.hk/makaba/mobile.fcgi?task=get_boards"
 
-type Board struct {
+type Category struct {
 	Id   string `json:"id"`
 	Name string `json:"name"`
 }
 
-type Category struct {
-	Name       string  `json:"name"`
-	BoardCount int32   `json:"board_count"`
-	Boards     []Board `json:"boards"`
-}
-
-func GetList() []Category {
+func GetList() interface{} {
 	resp, respErr := http.Get(categoriesUrl)
 
 	if respErr != nil {
@@ -30,7 +24,7 @@ func GetList() []Category {
 	defer resp.Body.Close()
 
 	byteValue, _ := ioutil.ReadAll(resp.Body)
-	var categories []Category
+	var categories map[string][]Category
 
 	jsonErr := json.Unmarshal(byteValue, &categories)
 
