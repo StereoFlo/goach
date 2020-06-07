@@ -22,7 +22,7 @@ type Thread struct {
 }
 
 type BoardWithThreads struct {
-	Id string        `json:"id"`
+	Id      string   `json:"id"`
 	Threads []Thread `json:"threads"`
 }
 
