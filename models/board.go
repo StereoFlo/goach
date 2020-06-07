@@ -11,14 +11,14 @@ import (
 const threadsUrl = "https://2ch.hk/%s/threads.json"
 
 type Thread struct {
-	Comment    string  `json:"comment"`
-	Lasthit    int32   `json:"lasthit"`
-	Num        string  `json:"num"`
-	PostsCount int32   `json:"posts_count"`
-	Score      float32 `json:"score"`
-	Views      int32   `json:"views"`
-	Timestamp  int32   `json:"timestamp"`
-	Subject    string  `json:"subject"`
+	Comment    string      `json:"comment"`
+	Lasthit    int32       `json:"lasthit"`
+	Num        json.Number `json:"num"`
+	PostsCount int32       `json:"posts_count"`
+	Score      float32     `json:"score"`
+	Views      int32       `json:"views"`
+	Timestamp  int32       `json:"timestamp"`
+	Subject    string      `json:"subject"`
 }
 
 type BoardWithThreads struct {
