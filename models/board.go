@@ -11,14 +11,14 @@ import (
 const threadsUrl = "https://2ch.hk/%s/threads.json"
 
 type Thread struct {
-	Comment    string `json:"comment"`
-	Lasthit    string `json:"lasthit"`
-	Num        string `json:"num"`
-	PostsCount string `json:"posts_count"`
-	Score      string `json:"score"`
-	Views      string `json:"views"`
-	Timestamp  string `json:"timestamp"`
-	Subject    string `json:"subject"`
+	Comment    string  `json:"comment"`
+	Lasthit    int32   `json:"lasthit"`
+	Num        string  `json:"num"`
+	PostsCount int32   `json:"posts_count"`
+	Score      float32 `json:"score"`
+	Views      int32   `json:"views"`
+	Timestamp  int32   `json:"timestamp"`
+	Subject    string  `json:"subject"`
 }
 
 type BoardWithThreads struct {
@@ -26,7 +26,7 @@ type BoardWithThreads struct {
 	Threads []Thread `json:"threads"`
 }
 
-func GetBoardById(boardId string) []BoardWithThreads {
+func GetBoardById(boardId string) BoardWithThreads {
 	resp, respErr := http.Get(fmt.Sprintf(threadsUrl, boardId))
 
 	if respErr != nil {
@@ -36,7 +36,7 @@ func GetBoardById(boardId string) []BoardWithThreads {
 	defer resp.Body.Close()
 
 	byteValue, _ := ioutil.ReadAll(resp.Body)
-	var BoardWithThreads []BoardWithThreads
+	var BoardWithThreads BoardWithThreads
 
 	jsonErr := json.Unmarshal(byteValue, &BoardWithThreads)
 
