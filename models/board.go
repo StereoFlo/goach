@@ -11,7 +11,7 @@ import (
 const threadsUrl = "https://2ch.hk/%s/threads.json"
 
 type Thread struct {
-	Comment    string `json:"command"`
+	Comment    string `json:"comment"`
 	Lasthit    string `json:"lasthit"`
 	Num        string `json:"num"`
 	PostsCount string `json:"posts_count"`
@@ -22,7 +22,7 @@ type Thread struct {
 }
 
 type BoardWithThreads struct {
-	Id      string   `json:"id"`
+	Id      string   `json:"board"`
 	Threads []Thread `json:"threads"`
 }
 
