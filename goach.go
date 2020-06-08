@@ -1,13 +1,14 @@
 package goach
 
 import (
-	"goach/models"
+	"goach/models/board"
+	"goach/models/category"
 )
 
-func GetCategoryList() []models.Category {
-	return models.GetList()
+func GetCategoryList() interface{} {
+	return category.GetList()
 }
 
-func GetBoardById(boardId string) []models.BoardWithThreads {
-	return models.GetBoardById(boardId)
+func GetBoardById(boardId string) board.BoardWithThreads {
+	return board.GetBoardById(boardId)
 }
