@@ -2,9 +2,9 @@ package board
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io/ioutil"
-	"log"
 	"net/http"
 )
 
@@ -21,33 +21,33 @@ type Thread struct {
 	Subject    string      `json:"subject"`
 }
 
-type BoardWithThreads struct {
+type ThreadsList struct {
 	Id           string   `json:"board"`
 	Threads      []Thread `json:"threads"`
 	ThreadsCount int      `json:"threads_count"`
 }
 
-func GetBoardById(boardId string) BoardWithThreads {
+func GetBoardById(boardId string) (interface{}, error) {
 	resp, respErr := http.Get(fmt.Sprintf(threadsUrl, boardId))
 
 	if respErr != nil || resp.StatusCode > 205 {
 		if respErr == nil {
-			log.Fatal("status code" + string(resp.StatusCode))
+			return nil, errors.New("status code" + string(resp.StatusCode))
 		}
-		log.Fatal(respErr)
+		return nil, respErr
 	}
 
 	defer resp.Body.Close()
 
-	byteValue, _ := ioutil.ReadAll(resp.Body)
-	var BoardWithThreads BoardWithThreads
+	jsonValue, _ := ioutil.ReadAll(resp.Body)
+	var BoardWithThreads ThreadsList
 
-	jsonErr := json.Unmarshal(byteValue, &BoardWithThreads)
+	jsonErr := json.Unmarshal(jsonValue, &BoardWithThreads)
 	BoardWithThreads.ThreadsCount = len(BoardWithThreads.Threads)
 
 	if jsonErr != nil {
-		log.Fatal(jsonErr)
+		return nil, jsonErr
 	}
 
-	return BoardWithThreads
+	return BoardWithThreads, nil
 }

@@ -2,8 +2,8 @@ package category
 
 import (
 	"encoding/json"
+	"errors"
 	"io/ioutil"
-	"log"
 	"net/http"
 )
 
@@ -14,23 +14,26 @@ type Category struct {
 	Name string `json:"name"`
 }
 
-func GetList() interface{} {
+func GetList() (map[string][]Category, error) {
 	resp, respErr := http.Get(categoriesUrl)
 
 	if respErr != nil || resp.StatusCode > 205 {
-		log.Fatal(respErr)
+		if respErr == nil {
+			return nil, errors.New("error code more than 205")
+		}
+		return nil, respErr
 	}
 
 	defer resp.Body.Close()
 
-	byteValue, _ := ioutil.ReadAll(resp.Body)
+	jsonByte, _ := ioutil.ReadAll(resp.Body)
 	var categories map[string][]Category
 
-	jsonErr := json.Unmarshal(byteValue, &categories)
+	jsonErr := json.Unmarshal(jsonByte, &categories)
 
 	if jsonErr != nil {
-		log.Fatal(jsonErr)
+		return nil, jsonErr
 	}
 
-	return categories
+	return categories, nil
 }
