@@ -5,10 +5,10 @@ import (
 	"goach/models/category"
 )
 
-func GetCategoryList() interface{} {
+func GetCategoryList() (map[string][]category.Category, error) {
 	return category.GetList()
 }
 
-func GetBoardById(boardId string) board.BoardWithThreads {
+func GetBoardById(boardId string) (*board.ThreadsList, error) {
 	return board.GetBoardById(boardId)
 }

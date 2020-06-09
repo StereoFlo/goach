@@ -27,7 +27,7 @@ type ThreadsList struct {
 	ThreadsCount int      `json:"threads_count"`
 }
 
-func GetBoardById(boardId string) (interface{}, error) {
+func GetBoardById(boardId string) (*ThreadsList, error) {
 	resp, respErr := http.Get(fmt.Sprintf(threadsUrl, boardId))
 
 	if respErr != nil || resp.StatusCode > 205 {
@@ -40,14 +40,14 @@ func GetBoardById(boardId string) (interface{}, error) {
 	defer resp.Body.Close()
 
 	jsonValue, _ := ioutil.ReadAll(resp.Body)
-	var BoardWithThreads ThreadsList
+	var ThreadsList ThreadsList
 
-	jsonErr := json.Unmarshal(jsonValue, &BoardWithThreads)
-	BoardWithThreads.ThreadsCount = len(BoardWithThreads.Threads)
+	jsonErr := json.Unmarshal(jsonValue, &ThreadsList)
+	ThreadsList.ThreadsCount = len(ThreadsList.Threads)
 
 	if jsonErr != nil {
 		return nil, jsonErr
 	}
 
-	return BoardWithThreads, nil
+	return &ThreadsList, nil
 }
